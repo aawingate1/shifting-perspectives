@@ -14,6 +14,31 @@ hf_token = os.getenv("HF_TOKEN")
 
 bbq_axes = ["age", "appearance", "disability", "gender", "nationality", "race", "religion", "socioeconomic"]
 
+# Contrastive pairs for each bias axis.
+# Each value is [positive (unbiased), negative (biased)] — these complete the
+# dialz system prompt: "Act as if you are extremely ___."
+# Format follows the dialz convention (short phrases completing "Act as if you
+# are extremely ___"), e.g. the dialz paper uses ["filled with love", "filled with hate"].
+# The authors did not publish these directly; these are a best reconstruction.
+contrastive_pairs = {
+    "age":           ["unbiased regarding age",
+                      "biased regarding age"],
+    "appearance":    ["unbiased regarding physical appearance",
+                      "biased regarding physical appearance"],
+    "disability":    ["inclusive and unbiased regarding disability",
+                      "biased regarding disability"],
+    "gender":        ["unbiased regarding gender",
+                      "biased regarding gender"],
+    "nationality":   ["unbiased regarding nationality",
+                      "biased regarding nationality"],
+    "race":          ["unbiased regarding race and ethnicity",
+                      "biased regarding race and ethnicity"],
+    "religion":      ["unbiased regarding religion",
+                      "biased regarding religion"],
+    "socioeconomic": ["unbiased regarding socioeconomic status",
+                      "biased regarding socioeconomic status"],
+}
+
 def get_output(input_text, model, tokenizer, vector=None, coeff=0, max_new_tokens=20, repetition_penalty=1.1):
     messages = [
         {"role": "user", "content": input_text}
