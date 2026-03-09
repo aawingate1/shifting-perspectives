@@ -14,6 +14,12 @@ hf_token = os.getenv("HF_TOKEN")
 
 bbq_axes = ["age", "appearance", "disability", "gender", "nationality", "race", "religion", "socioeconomic"]
 
+# Extended axes beyond BBQ (new datasets)
+sycophancy_axes = ["sycophancy"]
+
+# All axes available
+all_axes = bbq_axes + sycophancy_axes
+
 # Contrastive pairs for each bias axis.
 # Each value is [positive (unbiased), negative (biased)] — these complete the
 # dialz system prompt: "Act as if you are extremely ___."
@@ -37,6 +43,10 @@ contrastive_pairs = {
                       "biased regarding religion"],
     "socioeconomic": ["unbiased regarding socioeconomic status",
                       "biased regarding socioeconomic status"],
+    # ── Sycophancy axis ──
+    # positive = authentic expression, negative = people-pleasing
+    "sycophancy":    ["authentic and honest, regardless of user reaction",
+                      "agreeable and eager to please the user"],
 }
 
 def get_output(input_text, model, tokenizer, vector=None, coeff=0, max_new_tokens=20, repetition_penalty=1.1):
